@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import cash_on_hand
 import profit_loss
 import overheads
@@ -33,4 +31,3 @@ with open("summary_report.txt", "w") as summary_file:
 
 
 print("Results written to summary_report.txt.")
->>>>>>> f5bf6f541e06e8b312f8b0796761852d2b573229
