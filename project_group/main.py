@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import cash_on_hand
 import profit_loss
 import overheads
