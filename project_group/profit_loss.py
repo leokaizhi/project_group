@@ -4,7 +4,10 @@ def read_csv(file_path):
     with open(file_path, newline='') as csvfile:
         reader = csv.reader(csvfile)  
         next(reader) 
-        data = [row for row in reader if len(row) >= 5]
+        data = []
+        for row in reader:
+            if len(row) >= 5:
+                data.append(row)
     return data
 
 def analyse_net_profit(data):
@@ -23,15 +26,31 @@ def analyse_net_profit(data):
         previous_net_profit = current_net_profit
 
 
-    increasing = all(diff >= 0 for _, diff in differences)  # check if net profit is always increasing
-    decreasing = all(diff <= 0 for _, diff in differences)  # check if net profit is always decreasing 
+    # check if net profit is always increasing
+    increasing = True
+    for _, diff in differences:
+        if diff < 0:
+            increasing = False
+            break
+
+    # check if net profit is always decreasing
+    decreasing = True
+    for _, diff in differences:
+        if diff > 0:
+            decreasing = False
+            break
 
 
     #if net profit is always increasing
     if increasing:
         scenario = "Scenario 1"
         # find day with highest surplus
-        max_day, max_amount = max(differences, key=lambda x: x[1])
+        max_difference = float('-inf')
+        for day, diff in differences:
+            if diff > max_difference:
+                max_difference = diff
+                max_day = day
+                max_amount = diff
         output = [
             "[NET PROFIT SURPLUS] NET PROFIT ON EACH DAY IS HIGHER THAN PREVIOUS DAY",
             f"[HIGHEST NET PROFIT SURPLUS] DAY: {max_day}, AMOUNT: SGD{max_amount}"
@@ -42,11 +61,17 @@ def analyse_net_profit(data):
     elif decreasing:
         scenario = "Scenario 2"
         # find day with highest deficit
-        max_day, max_amount = min(differences, key=lambda x: x[1])
+        min_difference = float('inf')
+        for day, diff in differences:
+            if diff < min_difference:
+                min_difference = diff
+                max_day = day
+                max_amount = -diff
         output = [
             "[NET PROFIT DEFICIT] NET PROFIT ON EACH DAY IS LOWER THAN PREVIOUS DAY",
-            f"[HIGHEST NET PROFIT DEFICIT] DAY: {max_day}, AMOUNT: SGD{-max_amount}"
+            f"[HIGHEST NET PROFIT DEFICIT] DAY: {max_day}, AMOUNT: SGD{max_amount}"
         ]
+
 
 
     #if net profit is neither always increasing or always decreasing
@@ -58,7 +83,7 @@ def analyse_net_profit(data):
                 deficits.append((day, amt))
 
         # Initialize variables for top three deficits
-        top1_deficit = top2_deficit = top3_deficit = ('', float(10000))
+        top1_deficit = top2_deficit = top3_deficit = ('', float(1000000))
         
         for day, amt in deficits:
             if amt < top1_deficit[1]:
@@ -68,7 +93,10 @@ def analyse_net_profit(data):
             elif amt < top3_deficit[1]:
                 top3_deficit = (day, amt)
 
-        output = [f"[NET PROFIT DEFICIT] DAY: {day}, AMOUNT: SGD{-amt}" for day, amt in deficits]
+        output = []
+        for day, amt in deficits:
+            output.append(f"[NET PROFIT DEFICIT] DAY: {day}, AMOUNT: SGD{-amt}")
+            
         output.append(f"[1 HIGHEST NET PROFIT DEFICIT] DAY: {top1_deficit[0]}, AMOUNT: SGD{-top1_deficit[1]}")
         output.append(f"[2 HIGHEST NET PROFIT DEFICIT] DAY: {top2_deficit[0]}, AMOUNT: SGD{-top2_deficit[1]}")
         output.append(f"[3 HIGHEST NET PROFIT DEFICIT] DAY: {top3_deficit[0]}, AMOUNT: SGD{-top3_deficit[1]}")

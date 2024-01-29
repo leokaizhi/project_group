@@ -4,7 +4,10 @@ def read_csv(file_path):
     with open(file_path, newline='') as csvfile:
         reader = csv.reader(csvfile)  
         next(reader) 
-        data = [row for row in reader if len(row) >= 2]
+        data = []
+        for row in reader:
+            if len(row) >= 2:
+                data.append(row)
     return data
 
 def analyse_cash_on_hand(data):
@@ -22,8 +25,21 @@ def analyse_cash_on_hand(data):
         differences.append((current_day, difference))
         previous_cash_on_hand = current_cash_on_hand
 
-    increasing = all(diff >= 0 for _, diff in differences)  # check if cash on hand is always increasing
-    decreasing = all(diff <= 0 for _, diff in differences)  # check if cash on hand is always decreasing 
+
+    # check if cash on hand is always increasing
+    increasing = True
+    for _, diff in differences:
+        if diff < 0:
+            increasing = False
+            break
+
+    # check if cash on hand is always decreasing 
+    decreasing = True
+    for _, diff in differences:
+        if diff > 0:
+            decreasing = False
+            break
+
 
     # if cash on hand is always increasing
     if increasing:
@@ -41,6 +57,7 @@ def analyse_cash_on_hand(data):
             "[CASH SURPLUS] CASH ON EACH DAY IS HIGHER THAN PREVIOUS DAY",
             f"[HIGHEST CASH SURPLUS] DAY: {max_day}, AMOUNT: SGD{max_amount}"
         ]
+
 
     # if cash on hand is always decreasing
     elif decreasing:
@@ -80,7 +97,10 @@ def analyse_cash_on_hand(data):
             elif amt < top3_deficit[1]:
                 top3_deficit = (day, amt)
 
-        output = [f"[CASH DEFICIT] DAY: {day}, AMOUNT: SGD{-amt}" for day, amt in deficits]
+        output = []
+        for day, amt in deficits:
+            output.append(f"[CASH DEFICIT] DAY: {day}, AMOUNT: SGD{-amt}")
+
         output.append(f"[1 HIGHEST CASH DEFICIT] DAY: {top1_deficit[0]}, AMOUNT: SGD{-top1_deficit[1]}")
         output.append(f"[2 HIGHEST CASH DEFICIT] DAY: {top2_deficit[0]}, AMOUNT: SGD{-top2_deficit[1]}")
         output.append(f"[3 HIGHEST CASH DEFICIT] DAY: {top3_deficit[0]}, AMOUNT: SGD{-top3_deficit[1]}")
