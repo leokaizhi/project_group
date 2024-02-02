@@ -10,6 +10,7 @@ def read_csv(file_path):
                 data.append(row)
     return data
 
+
 def analyse_net_profit(data):
     """
     Analyses net profit data to determine the profit trend 
@@ -33,12 +34,14 @@ def analyse_net_profit(data):
             increasing = False
             break
 
+
     # check if net profit is always decreasing
     decreasing = True
     for _, diff in differences:
         if diff > 0:
             decreasing = False
             break
+
 
 
     #if net profit is always increasing
@@ -56,6 +59,7 @@ def analyse_net_profit(data):
             f"[HIGHEST NET PROFIT SURPLUS] DAY: {max_day}, AMOUNT: SGD{max_amount}"
         ]
 
+    
     
     #if net profit is always decreasing
     elif decreasing:

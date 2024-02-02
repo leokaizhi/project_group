@@ -3,9 +3,9 @@ import profit_loss
 import overheads
 
 # Define file paths for each module
-cash_csv_file_path = "C:/Users/Admin/OneDrive - Ngee Ann Polytechnic/Programming for Business/project_group/project_group/csv_reports/Cash_on_Hand.csv"
-net_profit_csv_file_path = "C:/Users/Admin/OneDrive - Ngee Ann Polytechnic/Programming for Business/project_group/project_group/csv_reports/Profits_and_Loss.csv"
-overhead_csv_file_path = "C:/Users/Admin/OneDrive - Ngee Ann Polytechnic/Programming for Business/project_group/project_group/csv_reports/Overheads.csv"
+cash_csv_file_path = "C:/Users/kaizh/OneDrive - Ngee Ann Polytechnic/Programming for Business/project_group/project_group/csv_reports/Cash_on_Hand.csv"
+net_profit_csv_file_path = "C:/Users/kaizh/OneDrive - Ngee Ann Polytechnic/Programming for Business/project_group/project_group/csv_reports/Profits_and_Loss.csv"
+overhead_csv_file_path = "C:/Users/kaizh/OneDrive - Ngee Ann Polytechnic/Programming for Business/project_group/project_group/csv_reports/Overheads.csv"
 
 # Analyze cash data
 cash_data = cash_on_hand.read_csv(cash_csv_file_path)

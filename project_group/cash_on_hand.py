@@ -10,6 +10,8 @@ def read_csv(file_path):
                 data.append(row)
     return data
 
+
+
 def analyse_cash_on_hand(data):
     """
     Analyses cash on hand data to determine the trend
@@ -18,7 +20,7 @@ def analyse_cash_on_hand(data):
     differences = []  # create empty list
     previous_cash_on_hand = float(data[0][1])  # initialise data at cash on hand column (2nd column)
 
-    for current_row in data[1:82]:  # process all rows
+    for current_row in data[1:82]:  #limit to the first 81 rows (90 days)
         current_day = current_row[0]
         current_cash_on_hand = float(current_row[1])  # convert cash on hand to float
         difference = current_cash_on_hand - previous_cash_on_hand  # calculate the difference
@@ -33,12 +35,14 @@ def analyse_cash_on_hand(data):
             increasing = False
             break
 
+
     # check if cash on hand is always decreasing 
     decreasing = True
     for _, diff in differences:
         if diff > 0:
             decreasing = False
             break
+
 
 
     # if cash on hand is always increasing
@@ -57,6 +61,7 @@ def analyse_cash_on_hand(data):
             "[CASH SURPLUS] CASH ON EACH DAY IS HIGHER THAN PREVIOUS DAY",
             f"[HIGHEST CASH SURPLUS] DAY: {max_day}, AMOUNT: SGD{max_amount}"
         ]
+
 
 
     # if cash on hand is always decreasing
@@ -87,7 +92,7 @@ def analyse_cash_on_hand(data):
                 deficits.append((day, amt))
 
         # Initialize variables for top three deficits
-        top1_deficit = top2_deficit = top3_deficit = ('', float(10000))
+        top1_deficit = top2_deficit = top3_deficit = ('', float(1000000))
         
         for day, amt in deficits:
             if amt < top1_deficit[1]:
